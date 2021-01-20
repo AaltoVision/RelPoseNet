@@ -4,12 +4,17 @@ import time
 from tqdm import tqdm
 import torch
 from relposenet.model import RelPoseNet
+from relposenet.dataset import SevenScenesRelPoseDataset
+from relposenet.augmentations import get_augmentations
 
 
 class Pipeline(object):
     def __init__(self, cfg):
         self.cfg = cfg
         cfg_model = self.cfg.model_params
+
+        # initialize dataloaders
+        self.train_loader, self.val_loader = self._init_dataloaders()
 
         self.model = RelPoseNet(cfg_model)
 
@@ -28,12 +33,34 @@ class Pipeline(object):
         if self.cfg.model_params.resume_snapshot:
             self._load_model(self.cfg.model_params.resume_snapshot)
 
-        '''
-        x1 = torch.randn(224, 224, 3).numpy()
-        x2 = torch.randn(224, 224, 3).numpy()
-        q, t = self.model(x1, x2)
-        print(q.shape, t.shape)
-        '''
+    def _init_dataloaders(self):
+        cfg_data = self.cfg.data_params
+        cfg_train = self.cfg.train_params
+
+        # get image augmentations
+        train_augs, val_augs = get_augmentations()
+
+        train_dataset = SevenScenesRelPoseDataset(cfg=self.cfg,
+                                                  split='train',
+                                                  transforms=train_augs)
+
+        val_dataset = SevenScenesRelPoseDataset(cfg=self.cfg,
+                                                split='val',
+                                                transforms=val_augs)
+
+        train_loader = torch.utils.data.DataLoader(train_dataset,
+                                                   batch_size=cfg_train.bs,
+                                                   shuffle=True,
+                                                   pin_memory=True,
+                                                   num_workers=cfg_train.n_workers,
+                                                   drop_last=True)
+        val_loader = torch.utils.data.DataLoader(val_dataset,
+                                                 batch_size=cfg_train.bs,
+                                                 shuffle=False,
+                                                 pin_memory=True,
+                                                 num_workers=cfg_train.n_workers,
+                                                 drop_last=True)
+        return train_loader, val_loader
 
     def _save_model(self, step, loss_val, best_val=False):
         if not osp.exists(self.cfg.output_params.snapshot_dir):
