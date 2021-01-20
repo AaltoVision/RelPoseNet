@@ -10,5 +10,8 @@ class RelPoseCriterion(nn.Module, ABC):
         self.t_loss = nn.MSELoss()
 
     def forward(self, q_gt, t_gt, q_est, t_est):
-        loss_total = self.t_loss(t_gt, t_est) + self.alpha * self.q_loss(q_gt, q_est)
-        return loss_total
+        t_loss = self.t_loss(t_est, t_gt)
+        q_loss = self.q_loss(q_est, q_gt)
+
+        loss_total = t_loss + self.alpha * q_loss
+        return loss_total, t_loss.item(), q_loss.item()
