@@ -1,0 +1,31 @@
+pipeline: Relative Camera Pose Estimation pipeline
+data_params:
+  work_dir: /data/projects/RelPoseNet
+  img_dir: /ssd/data/CAPS-MegaDepth-release-light
+  precomputed_dir: /data/pre_computed/MegaDepth-light-features
+  global_descs_dir: ${data_params.precomputed_dir}/global_descs
+  kpts_descs_dir: ${data_params.precomputed_dir}/kpts/superpoint
+  val_dataset_dir: ${data_params.precomputed_dir}/validation_dataset
+  crop_size: 192
+  win_size: 3
+model_params:
+  backbone_net: resnet34
+  resume_snapshot: null #${output_params.snapshot_dir}/snapshot030000.pth
+train_params:
+  bs: 7
+  lr: 1e-3
+  n_workers: 8
+  n_train_iters: 220000
+  scheduler:
+    lrate_decay_steps: 20000
+    lrate_decay_factor: 0.5
+output_params:
+  out_dir: /data/output/hndesc
+  logger_dir: ${output_params.out_dir}/tboard/${model_params.backbone_net}_hn_within_pair
+  snapshot_dir: ${output_params.out_dir}/snapshots/${model_params.backbone_net}_hn_within_pair
+  validate_interval: 2000
+  log_scalar_interval: 100
+seed: 1984
+hydra:
+  run:
+    dir: ${output_params.out_dir}
