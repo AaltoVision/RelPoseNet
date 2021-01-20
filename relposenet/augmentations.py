@@ -12,6 +12,12 @@ def net_preprocessing():
     return transform
 
 
+def get_augmentations():
+    train_aug = train_augmentations()
+    val_aug = eval_augmentations()
+    return train_aug, val_aug
+
+
 def train_augmentations():
     transform = transforms.Compose([transforms.RandomCrop(size=224),
                                     transforms.RandomChoice([
@@ -26,8 +32,8 @@ def train_augmentations():
 
 
 def eval_augmentations():
-    transform = transforms.Compose([transforms.ToPILImage(),
-                                    transforms.CenterCrop(size=224),
+    transform = transforms.Compose([transforms.CenterCrop(size=224),
+                                    transforms.ToTensor()
                                     ])
 
     return transform
