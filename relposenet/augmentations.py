@@ -8,20 +8,18 @@ def get_imagenet_mean_std():
 
 def net_preprocessing():
     mean, std = get_imagenet_mean_std()
-    transform = transforms.Compose([transforms.ToTensor(),
-                                    transforms.Normalize(mean, std)])
+    transform = transforms.Normalize(mean, std)
     return transform
 
 
 def train_augmentations():
-    transform = transforms.Compose([transforms.ToPILImage(),
-                                    transforms.RandomCrop(size=224),
+    transform = transforms.Compose([transforms.RandomCrop(size=224),
                                     transforms.RandomChoice([
                                         transforms.ColorJitter(brightness=0.4,
                                                                contrast=0.4,
                                                                saturation=0.4),
-                                        transforms.GaussianBlur(kernel_size=3),
-                                        transforms.RandomGrayscale()])
+                                        transforms.RandomGrayscale()]),
+                                    transforms.ToTensor()
                                     ])
 
     return transform
