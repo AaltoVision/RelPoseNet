@@ -58,9 +58,6 @@ class SevenScenesBenchmark(Benchmark):
         q_est_all = torch.cat(q_est_all).cpu().numpy()
         t_est_all = torch.cat(t_est_all).cpu().numpy()
 
-        print(f'q_est_all[5]: {q_est_all[5, :]}')
-        print(f't_est_all[5]: {t_est_all[5, :]}')
-
         print(f'Write the estimates to a text file')
         experiment_cfg = self.cfg.experiment.experiment_params
 
