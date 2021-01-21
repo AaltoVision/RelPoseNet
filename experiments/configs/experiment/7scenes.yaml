@@ -1,0 +1,11 @@
+# @package _group_
+experiment_params:
+  name: 7scenes
+  bs: 16
+  n_workers: 8
+  paths:
+    img_path: ${paths.datasets_home_dir}/7scenes-light
+    test_pairs_fname: ${paths.work_dir}/assets/data/NN_7scenes.txt
+  output:
+    home_dir: ${paths.output_home_dir}/${model.model_params.name}/${experiment.experiment_params.name}
+    res_txt_fname: ${experiment.experiment_params.output.home_dir}/est_rel_poses.txt
