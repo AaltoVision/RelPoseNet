@@ -82,8 +82,8 @@ class SevenScenesTestDataset(object):
                 chunks = line.rstrip().split(' ')
                 scene_id1 = int(chunks[2])
                 scene_id2 = int(chunks[3])
-                fnames1.append(osp.join(img_dir, self.scenes_dict[scene_id1], chunks[0][1:]))
-                fnames2.append(osp.join(img_dir, self.scenes_dict[scene_id2], chunks[1][1:]))
+                fnames1.append(osp.join(img_dir, self.scenes_dict[scene_id2], chunks[1][1:]))
+                fnames2.append(osp.join(img_dir, self.scenes_dict[scene_id1], chunks[0][1:]))
 
         return fnames1, fnames2
 
