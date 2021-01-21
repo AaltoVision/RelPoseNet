@@ -8,7 +8,7 @@ from relposenet.model import RelPoseNet
 from relposenet.dataset import SevenScenesRelPoseDataset
 from relposenet.augmentations import get_augmentations
 from relposenet.criterion import RelPoseCriterion
-from relposenet.utils import cycle
+from relposenet.utils import cycle, set_seed
 
 
 class Pipeline(object):
@@ -16,6 +16,7 @@ class Pipeline(object):
         self.cfg = cfg
         cfg_model = self.cfg.model_params
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        set_seed(self.cfg.seed)
 
         # initialize dataloaders
         self.train_loader, self.val_loader = self._init_dataloaders()

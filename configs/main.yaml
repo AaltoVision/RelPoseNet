@@ -18,8 +18,8 @@ train_params:
     lrate_decay_factor: 0.5
 output_params:
   out_dir: /data/output/relposenet
-  logger_dir: ${output_params.out_dir}/tboard/${model_params.backbone_net}
-  snapshot_dir: ${output_params.out_dir}/snapshots/${model_params.backbone_net}
+  logger_dir: ${output_params.out_dir}/tboard/${model_params.backbone_net}_with_flips
+  snapshot_dir: ${output_params.out_dir}/snapshots/${model_params.backbone_net}_with_flips
   validate_interval: 1300
   log_scalar_interval: 200
 seed: 1984
