@@ -1,0 +1,12 @@
+pipeline: Relative Camera Pose Estimation pipeline
+defaults:
+  - experiment: 7scenes
+  - model: relposenet
+paths:
+  work_dir: /data/projects/RelPoseNet
+  datasets_home_dir: /ssd/data
+  output_home_dir: ${paths.work_dir}/output
+  snapshots_dir: ${paths.work_dir}/data/snapshots
+hydra:
+  run:
+    dir: ${paths.output_home_dir}

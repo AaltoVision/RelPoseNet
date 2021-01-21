@@ -1,0 +1,5 @@
+# @package _group_
+model_params:
+  name: relposenet
+  backbone_net: resnet34
+  snapshot: ${paths.snapshots_dir}/${model.model_params.name}/best_val.pth
