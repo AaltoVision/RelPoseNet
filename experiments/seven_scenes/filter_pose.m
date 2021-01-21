@@ -1,20 +1,22 @@
 %% script to filter pose estimates from NN
 clear all
-addpath('utils')
+addpath('matlab_service')
+addpath('../../assets/data')
 
 dataset_name = '7-Scenes'; % or 'University'
-% file id with estimates produced by CNN
-pred_file_id = fopen('cnn_part/results/7scenes_res.bin', 'r');
 % getting GT file
 if strcmp(dataset_name, '7-Scenes')
-    file_id = fopen('cnn_part/data/NN_7scenes.txt');
+    file_id_gt = fopen('NN_7scenes.txt');
 elseif strcmp(dataset_name, 'University')
-    file_id = fopen('cnn_part/data/NN_university.txt');
+    file_id_gt = fopen('NN_university.txt');
 else
     error('Please, specify dataset_name variable properly [7-Scenes or University]');
 end
 
-data_cells = textscan(file_id, '%s %s %d %d %d %f %f %f %f %f %f %f %f %f %f %f %f %f %f');
+% Txt file with network predictions
+file_id_est = fopen('est_rel_poses_flips_21.txt');
+
+data_cells = textscan(file_id_gt, '%s %s %d %d %d %f %f %f %f %f %f %f %f %f %f %f %f %f %f');
 translation_gt_q = [data_cells{1,4+2} data_cells{1,5+2} data_cells{1,6+2}];
 orientation_gt_q = [data_cells{1,7+2} data_cells{1,8+2} data_cells{1,9+2} ...
                   data_cells{1,10+2}];
@@ -24,12 +26,18 @@ orientation_gt_db = [data_cells{1,14+2} data_cells{1,15+2} data_cells{1,16+2} ..
 
 number_of_pairs = size(translation_gt_q, 1);
 
-estimations = fread(pred_file_id, [7 Inf], 'float')';
-fclose(file_id);
-fclose(pred_file_id);
+data_cells_est = textscan(file_id_est, '%f %f %f %f %f %f %f');
 
-orientation_est = estimations(:, 1:4);
-translation_est = estimations(:, 5:end);
+orientation_est = [data_cells_est{1, 1} data_cells_est{1, 2} ...
+                   data_cells_est{1, 3} data_cells_est{1, 4}];
+translation_est = [data_cells_est{1, 5} data_cells_est{1, 6} data_cells_est{1, 7}];
+
+%estimations = fread(pred_file_id, [7 Inf], 'float')';
+fclose(file_id_gt);
+fclose(file_id_est);
+
+%orientation_est = estimations(:, 1:4);
+%translation_est = estimations(:, 5:end);
 
 %% main filtering stage
 
