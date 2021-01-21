@@ -45,7 +45,7 @@ class SevenScenesBenchmark(Benchmark):
         return model.eval()
 
     def evaluate(self):
-        q_est_all, t_est_all, q_db_all, t_db_all = [], [], [], []
+        q_est_all, t_est_all = [], []
         print(f'Evaluate on the dataset...')
         with torch.no_grad():
             for data_batch in tqdm(self.dataloader):
@@ -54,13 +54,9 @@ class SevenScenesBenchmark(Benchmark):
 
                 q_est_all.append(q_est)
                 t_est_all.append(t_est)
-                q_db_all.append(data_batch['q_db'].to(self.device))
-                t_db_all.append(data_batch['t_db'].to(self.device))
 
         q_est_all = torch.cat(q_est_all).cpu().numpy()
         t_est_all = torch.cat(t_est_all).cpu().numpy()
-        q_db_all = torch.cat(q_db_all).cpu().numpy()
-        t_db_all = torch.cat(t_db_all).cpu().numpy()
 
         print(f'Write the estimates to a text file')
         experiment_cfg = self.cfg.experiment.experiment_params
@@ -69,8 +65,7 @@ class SevenScenesBenchmark(Benchmark):
             os.makedirs(experiment_cfg.output.home_dir)
 
         with open(experiment_cfg.output.res_txt_fname, 'w') as f:
-            for q_est, t_est, q_db, t_db in zip(q_est_all, t_est_all, q_db_all, t_db_all):
-                f.write(f"{q_est[0]} {q_est[1]} {q_est[2]} {q_est[3]} {t_est[0]} {t_est[1]} {t_est[2]}"
-                        f"{q_db[0]} {q_db[1]} {q_db[2]} {q_db[3]} {t_db[0]} {t_db[1]} {t_db[2]}\n")
+            for q_est, t_est in zip(q_est_all, t_est_all):
+                f.write(f"{q_est[0]} {q_est[1]} {q_est[2]} {q_est[3]} {t_est[0]} {t_est[1]} {t_est[2]}\n")
 
         print(f'Done')

@@ -70,7 +70,7 @@ class SevenScenesTestDataset(object):
         for i, scene in enumerate(['chess', 'fire', 'heads', 'office', 'pumpkin', 'redkitchen', 'stairs']):
             self.scenes_dict[i] = scene
 
-        self.fnames1, self.fnames2, self.t_db, self.q_db = self._read_pairs_txt()
+        self.fnames1, self.fnames2 = self._read_pairs_txt()
 
     def _read_pairs_txt(self):
         fnames1, fnames2 = [], []
@@ -84,13 +84,8 @@ class SevenScenesTestDataset(object):
                 scene_id2 = int(chunks[3])
                 fnames1.append(osp.join(img_dir, self.scenes_dict[scene_id1], chunks[1][1:]))
                 fnames2.append(osp.join(img_dir, self.scenes_dict[scene_id2], chunks[0][1:]))
-                t_db.append(torch.FloatTensor([float(chunks[12]), float(chunks[13]), float(chunks[14])]))
-                q_db.append(torch.FloatTensor([float(chunks[15]),
-                                               float(chunks[16]),
-                                               float(chunks[17]),
-                                               float(chunks[18])]))
 
-        return fnames1, fnames2, t_db, q_db
+        return fnames1, fnames2
 
     def __getitem__(self, item):
         img1 = Image.open(self.fnames1[item]).convert('RGB')
@@ -102,8 +97,6 @@ class SevenScenesTestDataset(object):
 
         return {'img1': img1,
                 'img2': img2,
-                't_db': t_db,
-                'q_db': q_db
                 }
 
     def __len__(self):
