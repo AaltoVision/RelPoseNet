@@ -15,11 +15,9 @@ def get_augmentations():
 def train_augmentations():
     mean, std = get_imagenet_mean_std()
     transform = transforms.Compose([transforms.RandomCrop(size=224),
-                                    transforms.RandomChoice([
-                                        transforms.ColorJitter(brightness=0.4,
-                                                               contrast=0.4,
-                                                               saturation=0.4),
-                                        transforms.RandomGrayscale()]),
+                                    transforms.ColorJitter(brightness=0.4,
+                                                           contrast=0.4,
+                                                           saturation=0.4),
                                     transforms.ToTensor(),
                                     transforms.Normalize(mean, std)
                                     ])
