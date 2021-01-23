@@ -10,6 +10,7 @@ class RelPoseNet(nn.Module):
         self.backbone, self.concat_layer = self._get_backbone()
         self.net_q_fc = nn.Linear(self.concat_layer.in_features, 4)
         self.net_t_fc = nn.Linear(self.concat_layer.in_features, 3)
+        self.dropout = nn.Dropout(0.3)
 
     def _get_backbone(self):
         backbone, concat_layer = None, None
@@ -30,6 +31,6 @@ class RelPoseNet(nn.Module):
         feat2 = self._forward_one(x2)
 
         feat = torch.cat((feat1, feat2), 1)
-        q_est = self.net_q_fc(self.concat_layer(feat))
-        t_est = self.net_t_fc(self.concat_layer(feat))
+        q_est = self.net_q_fc(self.dropout(self.concat_layer(feat)))
+        t_est = self.net_t_fc(self.dropout(self.concat_layer(feat)))
         return q_est, t_est

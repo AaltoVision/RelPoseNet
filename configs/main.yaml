@@ -10,7 +10,7 @@ model_params:
 train_params:
   bs: 32
   lr: 1e-3
-  alpha: 10
+  alpha: 1
   n_workers: 8
   n_train_iters: 125000 # 42k is the size of our training dataset 'db_all_med_hard_train.txt'
   scheduler:
@@ -18,8 +18,8 @@ train_params:
     lrate_decay_factor: 0.5
 output_params:
   out_dir: /data/output/relposenet
-  logger_dir: ${output_params.out_dir}/tboard/${model_params.backbone_net}_with_flips
-  snapshot_dir: ${output_params.out_dir}/snapshots/${model_params.backbone_net}_with_flips
+  logger_dir: ${output_params.out_dir}/tboard/${model_params.backbone_net}
+  snapshot_dir: ${output_params.out_dir}/snapshots/${model_params.backbone_net}
   validate_interval: 1300
   log_scalar_interval: 200
 seed: 1984

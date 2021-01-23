@@ -14,7 +14,7 @@ else
 end
 
 % Txt file with network predictions
-file_id_est = fopen('est_rel_poses_flips_alpha10.txt');
+file_id_est = fopen('est_rel_poses_flips_21_alpha1_dropout_no_grey.txt');
 
 data_cells = textscan(file_id_gt, '%s %s %d %d %d %f %f %f %f %f %f %f %f %f %f %f %f %f %f');
 translation_gt_q = [data_cells{1,4+2} data_cells{1,5+2} data_cells{1,6+2}];
