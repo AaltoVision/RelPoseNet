@@ -181,11 +181,7 @@ for k=1:number_of_pairs
             if numel(sim_inlier_cnt_T) > 1 %if exists such other estimate
                 
                   % OPtion 1: average the candidates
-                  try
-                      X_best = mean(trans_tmp(sim_inlier_cnt_T,:));
-                  catch
-                      print('here')
-                  end
+                  X_best = mean(trans_tmp(sim_inlier_cnt_T,:));
                   
 % %                   
 %                 % OPtion 2: select the inlier estimate with least residual sum
