@@ -14,7 +14,7 @@ else
 end
 
 % Txt file with network predictions
-file_id_est = fopen('est_rel_poses_flips_21_alpha1_dropout_no_grey.txt');
+file_id_est = fopen('../../output/relposenet/7scenes/est_rel_poses_v2.txt');
 
 data_cells = textscan(file_id_gt, '%s %s %d %d %d %f %f %f %f %f %f %f %f %f %f %f %f %f %f');
 translation_gt_q = [data_cells{1,4+2} data_cells{1,5+2} data_cells{1,6+2}];
@@ -148,8 +148,8 @@ for k=1:number_of_pairs
             trans_tmp(nan_rows,:) = [];
            
             thresh_trans = 20; %10 degrees
-            inlier_cnt_T = zeros(1,10); % store the inlier count estimates of the triangulated camera locs
-            inlier_sum_T = zeros(1,10); % store the sum of residuals of distances for the inliers
+            inlier_cnt_T = zeros(1,size(trans_tmp,1)); % store the inlier count estimates of the triangulated camera locs
+            inlier_sum_T = zeros(1,size(trans_tmp,1)); % store the sum of residuals of distances for the inliers
             % estimate inliers for orientation
             % iterate over the triangulated 3D camera locs
             for h = 1:size(trans_tmp,1)
@@ -181,7 +181,11 @@ for k=1:number_of_pairs
             if numel(sim_inlier_cnt_T) > 1 %if exists such other estimate
                 
                   % OPtion 1: average the candidates
-                  X_best = mean(trans_tmp(sim_inlier_cnt_T,:));
+                  try
+                      X_best = mean(trans_tmp(sim_inlier_cnt_T,:));
+                  catch
+                      print('here')
+                  end
                   
 % %                   
 %                 % OPtion 2: select the inlier estimate with least residual sum
