@@ -12,6 +12,7 @@ Pumpkin|0.24m, 6.35deg|0.21m, 8.10deg
 Red Kitchen|0.24m, 8.03deg|0.23m, 8.82deg
 Stairs|0.27m, 11.82deg|0.27m, 11.66deg
 Average|0.21m, 9.30deg|0.20m, 9.87deg
+<<<<<<< HEAD
 
 ## Installation
 - create and activate conda environment with Python 3.x
@@ -59,3 +60,5 @@ If you use this project in your research, please cite:
 }
 ```
 
+=======
+>>>>>>> 44ba94e53ebec7873eddd0558065240c272c1b9e
