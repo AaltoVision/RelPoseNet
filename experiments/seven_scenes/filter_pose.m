@@ -14,7 +14,7 @@ else
 end
 
 % Txt file with network predictions
-file_id_est = fopen('../../output/relposenet/7scenes/est_rel_poses_v2.txt');
+file_id_est = fopen('../../output/est_rel_poses.txt');
 
 data_cells = textscan(file_id_gt, '%s %s %d %d %d %f %f %f %f %f %f %f %f %f %f %f %f %f %f');
 translation_gt_q = [data_cells{1,4+2} data_cells{1,5+2} data_cells{1,6+2}];

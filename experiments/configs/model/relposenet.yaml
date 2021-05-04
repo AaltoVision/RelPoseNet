@@ -2,4 +2,4 @@
 model_params:
   name: relposenet
   backbone_net: resnet34
-  snapshot: ${paths.snapshots_dir}/${model.model_params.name}/best_val.pth
+  snapshot: ${paths.snapshots_dir}/${model.model_params.name}/best_val_flipped_1_dropout_no_grey.pth
